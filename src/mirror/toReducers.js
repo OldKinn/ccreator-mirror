@@ -1,8 +1,8 @@
-import { models } from './model'
+import { models } from './model';
 
 export default function toReducers() {
-  return models.reduce((acc, cur) => {
-    acc[cur.name] = cur.reducer
-    return acc
-  }, {})
+    return models.reduce((acc, cur) => {
+        acc[cur.name] = cur.reducer;
+        return acc;
+    }, {});
 }

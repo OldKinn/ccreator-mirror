@@ -1,34 +1,43 @@
-import { Route, Redirect, Switch, Prompt, withRouter } from 'react-router'
-import { Link, NavLink } from 'react-router-dom'
-import { connect } from 'react-redux'
-import model from './model'
-import { actions } from './actions'
-import render,{ RootProvider as Provider } from './render'
-import hook from './hook'
-import Router from './router'
-import defaults from './defaults'
-import createMiddleware from './middleware'
-import toReducers from './toReducers'
-
-const middleware = createMiddleware()
+import {
+    HashRouter as Router,
+    BrowserRouter,
+    MemoryRouter,
+    Route,
+    Link,
+    NavLink,
+    Redirect,
+    Switch,
+    withRouter,
+    useHistory,
+    matchPath,
+} from 'react-router-dom';
+import { connect } from 'react-redux';
+import model from './model';
+import { actions } from './actions';
+import render from './render';
+import hook from './hook';
+import defaults from './defaults';
+import toReducers from './toReducers';
+import History from './History';
 
 export {
-  model,
-  actions,
-  hook,
-  defaults,
-  connect,
-  render,
-  middleware,
-  toReducers,
-
-  Provider,
-  Router,
-  Route,
-  Link,
-  NavLink,
-  Switch,
-  Redirect,
-  Prompt,
-  withRouter
-}
+    Router,
+    BrowserRouter,
+    MemoryRouter,
+    Route,
+    Link,
+    NavLink,
+    Redirect,
+    Switch,
+    withRouter,
+    matchPath,
+    useHistory,
+    connect,
+    model,
+    actions,
+    hook,
+    defaults,
+    render,
+    toReducers,
+    History,
+};
