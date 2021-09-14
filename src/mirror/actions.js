@@ -28,9 +28,10 @@ export function addActions(modelName, reducers = {}, effects = {}) {
         actions[modelName][actionName] = actionCreator(modelName, actionName);
     });
     each(effects, (effectName) => {
-        if (actions[modelName][effectName]) {
-            throw new Error(`Action name "${effectName}" has been used! Please select another name as effect name!`);
-        }
+        // edit by leon, allow reload model
+        // if (actions[modelName][effectName]) {
+        //     throw new Error(`Action name "${effectName}" has been used! Please select another name as effect name!`);
+        // }
         options.addEffect(`${modelName}${SEP}${effectName}`, effects[effectName]);
         // Effect is like normal action, except it is handled by mirror middleware
         actions[modelName][effectName] = actionCreator(modelName, effectName);

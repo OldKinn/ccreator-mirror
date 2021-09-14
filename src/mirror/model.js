@@ -1,6 +1,7 @@
 import set from 'lodash/set';
 import get from 'lodash/get';
 import forEach from 'lodash/forEach';
+import remove from 'lodash/remove';
 import { resolveReducers, addActions } from './actions';
 
 const isObject = (target) => Object.prototype.toString.call(target) === '[object Object]';
@@ -24,11 +25,10 @@ function validateModel(m = {}) {
     if (!name || typeof name !== 'string') {
         throw new Error('Model name must be a valid string!');
     }
-    if (name === 'routing') {
-        throw new Error('Model name can not be "routing"!');
-    }
     if (models.find((item) => item.name === name)) {
-        throw new Error(`Model "${name}" has been created, please select another name!`);
+        // edit by leon, allow reload model
+        // throw new Error(`Model "${name}" has been created, please select another name!`);
+        remove(models, (item) => item.name === name);
     }
     if (reducers !== undefined && !isObject(reducers)) {
         throw new Error('Model reducers must be a valid object!');
@@ -53,22 +53,22 @@ function getReducer(reducers, initialState = null) {
     };
 }
 
-export default function model(m) {
+export default function model(base) {
     // Set Method
-    set(m, 'reducers.set', (state, data) => {
+    set(base, 'reducers.set', (state, data) => {
+        if (typeof data !== 'object') throw new Error(`actions.${base.name}.set() 参数必须为Object类型！`);
         forEach(data, (value, key) => {
-            if (state[key] === undefined) {
-                throw new Error(`属性未定义：${key} is undefined，请初始化此属性`);
-            }
+            if (state[key] === undefined) throw new Error(`属性未定义【${key}】，请在模型中定义此属性`);
         });
         return { ...state, ...data };
     });
     // Get Method
-    set(m, 'effects.get', (key, getState) => {
-        const data = getState()[m.name];
+    set(base, 'effects.get', (key, getState) => {
+        const data = getState()[base.name];
+        if (!key) return data;
         return get(data, key);
     });
-    const { name, reducers, initialState, effects } = validateModel(m);
+    const { name, reducers, initialState, effects } = validateModel(base);
     const reducer = getReducer(resolveReducers(name, reducers), initialState);
     const toAdd = { name, reducer };
     models.push(toAdd);
