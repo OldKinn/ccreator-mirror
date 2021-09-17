@@ -68,8 +68,8 @@ export default function model(base) {
         if (!key) return data;
         return get(data, key);
     });
-    const { name, reducers, initialState, effects } = validateModel(base);
-    const reducer = getReducer(resolveReducers(name, reducers), initialState);
+    const { name, reducers, initialState, state, effects } = validateModel(base);
+    const reducer = getReducer(resolveReducers(name, reducers), state || initialState);
     const toAdd = { name, reducer };
     models.push(toAdd);
     addActions(name, reducers, effects);
