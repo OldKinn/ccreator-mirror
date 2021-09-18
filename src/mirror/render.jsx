@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import { options } from './defaults';
-import History from './History';
 import { models } from './model';
 import { store, createStore, replaceReducer } from './store';
 
@@ -25,7 +24,6 @@ export default function render(component, container, callback) {
     Root = () => (
         <Provider store={store.data}>
             {component}
-            <History />
         </Provider>
     );
     started = true;
