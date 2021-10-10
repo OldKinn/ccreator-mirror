@@ -31,7 +31,7 @@ console.log(actions.app.get('name'));
 
 ## History组件使用
 
-放置于Router、BrowserRouter、MemoryRouter内部，使用actions.route.push()和actions.route.replace控制路由跳转
+放置于Router、BrowserRouter、MemoryRouter内部，使用actions.route.push()和actions.route.replace()控制路由跳转
 
 ```
 <Router>
