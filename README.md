@@ -8,9 +8,9 @@
 2. 移除react-router-redux
 3. 增加Router(HashRouter)、BrowserRouter、MemoryRouter等组件的导出声明
 4. 路由跳转改为actions.route.push()和actions.route.replace()
-5. 模型（model）增加默认的set和get方法
+5. 模型（model）增加默认的set、reset和get方法
 6. 允许模型的重载，针对按需加载模式时，模型需要重新载入
-7. 模型（model）初始化状态值增加state，优先使用state（2021-09-17）
+7. 模型（model）初始化状态值使用state
 
 ## 调整后的model
 
@@ -22,11 +22,14 @@ export default {
 };
 ```
 
-此模型默认有两个方法set、get
+模型默认有增加set、reset、get方法
 ```
 actions.app.set({ name: 'mango' });
 console.log(actions.app.get('name'));
 // output mango
+actions.app.reset();
+console.log(actions.app.get('name'));
+// output leon
 ```
 
 ## History组件使用

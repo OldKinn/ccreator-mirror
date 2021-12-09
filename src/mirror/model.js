@@ -1,3 +1,4 @@
+/* eslint-disable default-param-last */
 import set from 'lodash/set';
 import get from 'lodash/get';
 import forEach from 'lodash/forEach';
@@ -59,7 +60,7 @@ export default function model(base) {
     set(base, 'reducers.set', (state, data) => {
         if (typeof data !== 'object') throw new Error(`actions.${base.name}.set() 参数必须为Object类型！`);
         forEach(data, (value, key) => {
-            if (defaultState[key] === undefined) throw new Error(`属性未定义【${key}】，请在模型中定义此属性`);
+            if (defaultState[key] === undefined) throw new Error(`属性未定义【${key}】，请在模型【state】中定义此属性`);
         });
         return { ...state, ...data };
     });

@@ -3,5 +3,6 @@ module.exports = {
     reject: [
         'node-sass',
         'eslint',
+        'react-router-dom',
     ],
 };

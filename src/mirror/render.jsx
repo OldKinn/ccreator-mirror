@@ -1,6 +1,5 @@
-// eslint-disable-next-line
+/* eslint-disable func-names */
 import React from 'react';
-// eslint-disable-next-line
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
@@ -21,11 +20,13 @@ export default function render(component, container, callback) {
     } else {
         createStore(models, reducers, initialState, middlewares);
     }
-    Root = () => (
-        <Provider store={store.data}>
-            {component}
-        </Provider>
-    );
+    Root = function () {
+        return (
+            <Provider store={store.data}>
+                {component}
+            </Provider>
+        );
+    };
     started = true;
     if (global.document) {
         ReactDOM.render(<Root />, container, callback);
