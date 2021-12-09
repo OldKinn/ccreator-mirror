@@ -2,6 +2,7 @@ import set from 'lodash/set';
 import get from 'lodash/get';
 import forEach from 'lodash/forEach';
 import remove from 'lodash/remove';
+import cloneDeep from 'lodash/cloneDeep';
 import { resolveReducers, addActions } from './actions';
 
 const isObject = (target) => Object.prototype.toString.call(target) === '[object Object]';
@@ -21,14 +22,15 @@ function filterReducers(reducers) {
 }
 
 function validateModel(m = {}) {
-    const { name, reducers, effects } = m;
+    const { name, state, reducers, effects } = m;
     if (!name || typeof name !== 'string') {
         throw new Error('Model name must be a valid string!');
     }
     if (models.find((item) => item.name === name)) {
-        // edit by leon, allow reload model
-        // throw new Error(`Model "${name}" has been created, please select another name!`);
         remove(models, (item) => item.name === name);
+    }
+    if (state === undefined || !isObject(state)) {
+        throw new Error('模型的状态（state）必须是对象类型');
     }
     if (reducers !== undefined && !isObject(reducers)) {
         throw new Error('Model reducers must be a valid object!');
@@ -36,10 +38,8 @@ function validateModel(m = {}) {
     if (effects !== undefined && !isObject(effects)) {
         throw new Error('Model effects must be a valid object!');
     }
-    // eslint-disable-next-line
-    m.reducers = filterReducers(reducers);
-    // eslint-disable-next-line
-    m.effects = filterReducers(effects);
+    set(m, 'reducers', filterReducers(reducers));
+    set(m, 'effects', filterReducers(effects));
     return m;
 }
 
@@ -54,22 +54,25 @@ function getReducer(reducers, initialState = null) {
 }
 
 export default function model(base) {
-    // Set Method
+    const defaultState = cloneDeep(base.state);
+    // Add Set Method
     set(base, 'reducers.set', (state, data) => {
         if (typeof data !== 'object') throw new Error(`actions.${base.name}.set() 参数必须为Object类型！`);
         forEach(data, (value, key) => {
-            if (state[key] === undefined) throw new Error(`属性未定义【${key}】，请在模型中定义此属性`);
+            if (defaultState[key] === undefined) throw new Error(`属性未定义【${key}】，请在模型中定义此属性`);
         });
         return { ...state, ...data };
     });
-    // Get Method
+    // Add Reset Method
+    set(base, 'reducers.reset', () => ({ ...defaultState }));
+    // Add Get Method
     set(base, 'effects.get', (key, getState) => {
         const data = getState()[base.name];
         if (!key) return data;
         return get(data, key);
     });
-    const { name, reducers, initialState, state, effects } = validateModel(base);
-    const reducer = getReducer(resolveReducers(name, reducers), state || initialState);
+    const { name, reducers, state, effects } = validateModel(base);
+    const reducer = getReducer(resolveReducers(name, reducers), state);
     const toAdd = { name, reducer };
     models.push(toAdd);
     addActions(name, reducers, effects);
