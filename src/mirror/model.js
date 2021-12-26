@@ -56,7 +56,6 @@ function getReducer(reducers, initialState = null) {
 
 export default function model(base) {
     const defaultState = cloneDeep(base.state);
-    // Add Set Method
     set(base, 'reducers.set', (state, data) => {
         if (typeof data !== 'object') throw new Error(`actions.${base.name}.set() 参数必须为Object类型！`);
         forEach(data, (value, key) => {
@@ -64,9 +63,7 @@ export default function model(base) {
         });
         return { ...state, ...data };
     });
-    // Add Reset Method
     set(base, 'reducers.reset', () => ({ ...defaultState }));
-    // Add Get Method
     set(base, 'effects.get', (key, getState) => {
         const data = getState()[base.name];
         if (!key) return data;

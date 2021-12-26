@@ -23,19 +23,11 @@ export function addActions(modelName, reducers = {}, effects = {}) {
         actions[modelName] = actions[modelName] || {};
     }
     each(reducers, (actionName) => {
-        // A single-argument function, whose argument is the payload data of a normal redux action,
-        // and also the `data` param of corresponding method defined in model.reducers.
         actions[modelName][actionName] = actionCreator(modelName, actionName);
     });
     each(effects, (effectName) => {
-        // edit by leon, allow reload model
-        // if (actions[modelName][effectName]) {
-        //     throw new Error(`Action name "${effectName}" has been used! Please select another name as effect name!`);
-        // }
         options.addEffect(`${modelName}${SEP}${effectName}`, effects[effectName]);
-        // Effect is like normal action, except it is handled by mirror middleware
         actions[modelName][effectName] = actionCreator(modelName, effectName);
-        // Allow packages to differentiate effects from actions
         actions[modelName][effectName].isEffect = true;
     });
 }
