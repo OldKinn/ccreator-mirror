@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import model, { models } from './model';
 import { actions } from './actions';
 import hook from './hook';
@@ -13,6 +13,7 @@ const initStore = () => {
 };
 
 export {
+    Provider,
     connect,
     model,
     actions,

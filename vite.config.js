@@ -18,6 +18,11 @@ export default defineConfig({
             external: [
                 'react',
                 'react-dom',
+                'lodash/set',
+                'lodash/get',
+                'lodash/forEach',
+                'lodash/remove',
+                'lodash/cloneDeep',
             ],
             output: {
                 exports: 'named',
@@ -25,6 +30,11 @@ export default defineConfig({
                 globals: {
                     react: 'React',
                     'react-dom': 'ReactDOM',
+                    'lodash/set': 'set',
+                    'lodash/get': 'get',
+                    'lodash/forEach': 'forEach',
+                    'lodash/remove': 'remove',
+                    'lodash/cloneDeep': 'cloneDeep',
                 },
             },
         },
