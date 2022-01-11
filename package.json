@@ -21,7 +21,7 @@
   },
   "scripts": {
     "build": "vite build",
-    "format": "eslint --ext='.js,.jsx' --fix ./src"
+    "format": "eslint ./src --fix"
   },
   "peerDependencies": {
     "lodash": "^4.17.21",

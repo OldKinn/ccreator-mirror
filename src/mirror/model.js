@@ -4,6 +4,8 @@ import get from 'lodash/get';
 import forEach from 'lodash/forEach';
 import remove from 'lodash/remove';
 import cloneDeep from 'lodash/cloneDeep';
+import pick from 'lodash/pick';
+import isArray from 'lodash/isArray';
 import { resolveReducers, addActions } from './actions';
 
 const isObject = (target) => Object.prototype.toString.call(target) === '[object Object]';
@@ -63,7 +65,13 @@ export default function model(base) {
         });
         return { ...state, ...data };
     });
-    set(base, 'reducers.reset', () => ({ ...defaultState }));
+    set(base, 'reducers.reset', (state, resetKeys) => {
+        if (isArray(resetKeys) && resetKeys.length > 0) {
+            const temp = pick(defaultState, resetKeys);
+            return { ...state, ...temp };
+        }
+        return { ...defaultState };
+    });
     set(base, 'effects.get', (key, getState) => {
         const data = getState()[base.name];
         if (!key) return data;

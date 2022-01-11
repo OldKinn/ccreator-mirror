@@ -23,6 +23,8 @@ export default defineConfig({
                 'lodash/forEach',
                 'lodash/remove',
                 'lodash/cloneDeep',
+                'lodash/pick',
+                'lodash/isArray',
             ],
             output: {
                 exports: 'named',
@@ -35,6 +37,8 @@ export default defineConfig({
                     'lodash/forEach': 'forEach',
                     'lodash/remove': 'remove',
                     'lodash/cloneDeep': 'cloneDeep',
+                    'lodash/pick': 'pick',
+                    'lodash/isArray': 'isArray',
                 },
             },
         },
