@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import path from 'path';
 import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
-
-const path = require('path');
+import Const from './scripts/vite.const';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,31 +15,11 @@ export default defineConfig({
             fileName: (format) => `mirror.${format}.js`,
         },
         rollupOptions: {
-            external: [
-                'react',
-                'react-dom',
-                'lodash/set',
-                'lodash/get',
-                'lodash/forEach',
-                'lodash/remove',
-                'lodash/cloneDeep',
-                'lodash/pick',
-                'lodash/isArray',
-            ],
+            external: Const.external,
             output: {
                 exports: 'named',
                 // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
-                globals: {
-                    react: 'React',
-                    'react-dom': 'ReactDOM',
-                    'lodash/set': 'set',
-                    'lodash/get': 'get',
-                    'lodash/forEach': 'forEach',
-                    'lodash/remove': 'remove',
-                    'lodash/cloneDeep': 'cloneDeep',
-                    'lodash/pick': 'pick',
-                    'lodash/isArray': 'isArray',
-                },
+                globals: Const.globals,
             },
         },
     },

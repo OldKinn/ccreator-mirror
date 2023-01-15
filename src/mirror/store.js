@@ -19,18 +19,13 @@ function createReducer(models, reducers) {
     });
 }
 
-export function createStore(models, reducers, initialState, middlewares = []) {
+export function initStore(models, reducers, initialState, middlewares = []) {
     const middleware = applyMiddleware(
         ...middlewares,
         createMiddleware(),
     );
     const enhancers = [middleware];
-    let composeEnhancers = compose;
-    if (process.env.NODE_ENV !== 'production') {
-        if (global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
-            composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
-        }
-    }
+    const composeEnhancers = compose;
     const reducer = createReducer(models, reducers);
     const enhancer = composeEnhancers(...enhancers);
     store.data = _createStore(reducer, initialState, enhancer);

@@ -2,43 +2,37 @@
 
 **[基于mirrorx修改版本](https://github.com/mirrorjs/mirror)**
 
-## 更新内容
+## 更新内容（2023-01-17）
 
-1. 升级react-router-dom
+1. 移除react-router-dom
 2. 移除react-router-redux
-3. 增加Router(HashRouter)、BrowserRouter、MemoryRouter等组件的导出声明
-4. 路由跳转改为actions.route.push()和actions.route.replace()
-5. 模型（model）增加默认的set、reset和get方法
-6. 允许模型的重载，针对按需加载模式时，模型需要重新载入
-7. 模型（model）初始化状态值使用state
+3. 模型（model）增加默认的set、reset和get方法
+4. 允许模型的重载，针对按需加载模式时，模型需要重新载入
+5. 模型（model）初始化状态值使用state
+6. 修改初始化方式，支持React18.x
 
-## 调整后的model
 
-src/models/app.js
-```
-export default {
-    name: 'app',
-    state: { name: 'leon' },
-};
-```
+## 初始化
+```js
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import mirror, { Provider } from '@ccreator/mirror';
+import App from './App'
+import app from './models/app';
 
-模型默认有增加set、reset、get方法
-```
-actions.app.set({ name: 'mango' });
-console.log(actions.app.get('name'));
-// output mango
-actions.app.reset();
-console.log(actions.app.get('name'));
-// output leon
-```
+mirror.hook(console.log)
 
-## History组件使用
+// 1.加载模型
+mirror.model(app);
 
-放置于Router、BrowserRouter、MemoryRouter内部，使用actions.route.push()和actions.route.replace()控制路由跳转
+// 2.创建数据存储
+const store = mirror.createStore();
 
-```
-<Router>
-    ...
-    <History/>
-</Router>
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </React.StrictMode>,
+)
 ```

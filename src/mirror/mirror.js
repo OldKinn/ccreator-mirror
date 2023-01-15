@@ -4,12 +4,12 @@ import { actions } from './actions';
 import hook from './hook';
 import defaults, { options } from './defaults';
 import toReducers from './toReducers';
-import { store, createStore } from './store';
+import { store, initStore } from './store';
 
-const initStore = () => {
+const createStore = () => {
     const { reducers, initialState, middlewares } = options;
-    createStore(models, reducers, initialState, middlewares);
-    return store;
+    initStore(models, reducers, initialState, middlewares);
+    return store.data;
 };
 
 export {
@@ -20,5 +20,5 @@ export {
     hook,
     defaults,
     toReducers,
-    initStore,
+    createStore,
 };
