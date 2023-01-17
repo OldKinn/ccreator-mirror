@@ -19,6 +19,8 @@ const moduleLodash = findJSModule(lodash);
 const globals = {
     react: 'React',
     'react-dom': 'ReactDOM',
+    'redux': 'redux',
+    'react-redux': 'ReactRedux',
 };
 moduleLodash.forEach((item) => {
     const name = path.basename(item, '.js');
