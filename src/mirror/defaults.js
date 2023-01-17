@@ -14,10 +14,7 @@ export default function defaults(opts = {}) {
     }
     Object.keys(opts).forEach((key) => {
         if (key === 'reducers') {
-            options[key] = {
-                ...options[key],
-                ...opts[key],
-            };
+            options[key] = { ...options[key], ...opts[key] };
         } else {
             options[key] = opts[key];
         }

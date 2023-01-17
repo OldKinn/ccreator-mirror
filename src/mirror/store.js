@@ -1,9 +1,4 @@
-import {
-    createStore as _createStore,
-    applyMiddleware,
-    combineReducers,
-    compose,
-} from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import createMiddleware from './middleware';
 
 export const store = {};
@@ -13,10 +8,7 @@ function createReducer(models, reducers) {
         acc[cur.name] = cur.reducer;
         return acc;
     }, {});
-    return combineReducers({
-        ...reducers,
-        ...modelReducers,
-    });
+    return combineReducers({ ...reducers, ...modelReducers });
 }
 
 export function initStore(models, reducers, initialState, middlewares = []) {
@@ -28,7 +20,7 @@ export function initStore(models, reducers, initialState, middlewares = []) {
     const composeEnhancers = compose;
     const reducer = createReducer(models, reducers);
     const enhancer = composeEnhancers(...enhancers);
-    store.data = _createStore(reducer, initialState, enhancer);
+    store.data = createStore(reducer, initialState, enhancer);
     return store;
 }
 

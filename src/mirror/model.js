@@ -13,9 +13,7 @@ const isObject = (target) => Object.prototype.toString.call(target) === '[object
 export const models = [];
 
 function filterReducers(reducers) {
-    if (!reducers) {
-        return reducers;
-    }
+    if (!reducers) return reducers;
     return Object.keys(reducers).reduce((acc, action) => {
         if (typeof reducers[action] === 'function') {
             acc[action] = reducers[action];
