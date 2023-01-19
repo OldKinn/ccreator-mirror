@@ -105,8 +105,8 @@ export default {
 ## 更新内容
 
 **2023-01-17**  
-1. 移除react-router-dom
-2. 改初始化方式，支持React18.x
+1. 移除react-router-dom依赖
+2. 修改初始化方式，支持React18.x
 3. 删除路由相关代码，代码结构优化
 
 
