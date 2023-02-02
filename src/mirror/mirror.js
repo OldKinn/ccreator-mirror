@@ -1,4 +1,3 @@
-import { Provider, connect } from 'react-redux';
 import model, { models } from './model';
 import { actions } from './actions';
 import hook from './hook';
@@ -13,8 +12,6 @@ const createStore = () => {
 };
 
 export {
-    Provider,
-    connect,
     model,
     actions,
     hook,

@@ -2,6 +2,15 @@
 
 **[基于mirrorx修改版本](https://github.com/mirrorjs/mirror)**
 
+## 安装
+
+```bash
+# 安装库
+yarn add @ccreator/mirror
+# 安装库的types声明
+yarn add @types/ccreator__mirror -D
+```
+
 ## 初始化
 ```js
 import React from 'react'
