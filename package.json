@@ -9,7 +9,8 @@
   },
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "main": "./dist/mirror.umd.js",
   "module": "./dist/mirror.es.js",
