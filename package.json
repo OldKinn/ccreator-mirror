@@ -1,6 +1,6 @@
 {
   "name": "@ccreator/mirror",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "redux封装，基于mirrorx实现",
   "repository": "https://e.coding.net/chinacreator/ccreator-mirror/ccreator-mirror.git",
   "author": {

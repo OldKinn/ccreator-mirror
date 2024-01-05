@@ -5,8 +5,6 @@
 ```bash
 # 安装库
 yarn add @ccreator/mirror
-# 安装库的types声明
-yarn add @types/ccreator__mirror -D
 ```
 
 ## 定义模型
