@@ -31,7 +31,7 @@ function validateModel(m = {}) {
         remove(models, (item) => item.name === name);
     }
     if (state === undefined || !isObject(state)) {
-        throw new Error('模型的状态（state）必须是对象类型');
+        throw new Error('模型的状态 state 必须是对象类型');
     }
     if (reducers !== undefined && !isObject(reducers)) {
         throw new Error('Model reducers must be a valid object!');
@@ -57,9 +57,9 @@ function getReducer(reducers, initialState = null) {
 export default function model(base) {
     const defaultState = cloneDeep(base.state);
     set(base, 'reducers.set', (state, data) => {
-        if (typeof data !== 'object') throw new Error(`actions.${base.name}.set() 参数必须为Object类型！`);
+        if (typeof data !== 'object') throw new Error(`actions.${base.name}.set() 参数必须为Object类型`);
         forEach(data, (value, key) => {
-            if (defaultState[key] === undefined) throw new Error(`属性未定义【${key}】，请在模型【state】中定义此属性`);
+            if (defaultState[key] === undefined) throw new Error(`属性 ${key} 未定义,请在模型中定义此属性`);
         });
         return { ...state, ...data };
     });

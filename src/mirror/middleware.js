@@ -2,7 +2,7 @@ import { effects } from './effects';
 import { hooks } from './hook';
 
 function warning() {
-    throw new Error('存储对象(store)未创建，无法调用dispatch和getState');
+    throw new Error('存储对象 store 未创建, 无法调用 dispatch 和 getState');
 }
 
 export const middleware = {

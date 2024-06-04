@@ -1,7 +1,7 @@
 {
   "name": "@ccreator/mirror",
-  "version": "2.0.4",
-  "description": "redux封装，基于mirrorx实现",
+  "version": "2.0.5-1",
+  "description": "redux封装,基于mirrorx实现",
   "repository": "https://e.coding.net/chinacreator/ccreator-mirror/ccreator-mirror.git",
   "author": {
     "name": "leon",
@@ -12,14 +12,9 @@
     "dist",
     "index.d.ts"
   ],
+  "type": "module",
   "main": "./dist/mirror.umd.js",
   "module": "./dist/mirror.es.js",
-  "exports": {
-    ".": {
-      "import": "./dist/mirror.es.js",
-      "require": "./dist/mirror.umd.js"
-    }
-  },
   "scripts": {
     "build": "vite build",
     "format": "eslint ./src --fix"

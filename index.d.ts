@@ -1,4 +1,22 @@
-import type * as React from 'react'
+import { Provider, connect } from "react-redux";
+
+export const actions: {};
+
+export function createStore(): any;
+
+declare const mirror: Readonly<{
+  __proto__: any;
+  actions: {};
+  createStore: () => any;
+  defaults: typeof defaults;
+  hook: typeof hook;
+  model: typeof model;
+  toReducers: typeof toReducers;
+}>;
+
+export function defaults(opts?: {}): void;
+
+export function hook(subscriber: any): () => void;
 
 declare interface Model {
   name: string
@@ -7,19 +25,8 @@ declare interface Model {
   effects?: object
 }
 
-declare interface ProviderProps {
-  children: React.ReactElement
-  store: any
-}
+export function model(base: Model): void;
 
-export function Provider({ children, store }: ProviderProps): React.ReactElement
+export function toReducers(): any;
 
-export const actions: any
-
-export function connect(P: (state: any) => object): React.ReactElement
-
-export function hook(P: (data: object, disp: any) => void): void
-
-export function createStore(): any
-
-export function model(P: Model): void
+export { Provider, connect, mirror as default };
