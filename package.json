@@ -1,6 +1,6 @@
 {
   "name": "@ccreator/mirror",
-  "version": "2.0.5",
+  "version": "2.0.6-0",
   "description": "redux封装,基于mirrorx实现",
   "repository": "https://e.coding.net/chinacreator/ccreator-mirror/ccreator-mirror.git",
   "author": {
@@ -20,11 +20,11 @@
     "format": "eslint ./src --fix"
   },
   "peerDependencies": {
+    "lodash": ">=4.17.0",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1"
   },
@@ -37,6 +37,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "fs-extra": "^11.1.0",
+    "lodash": "^4.17.21",
     "vite": "^4.0.4"
   }
 }

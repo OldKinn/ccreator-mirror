@@ -83,47 +83,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 ```
 
-## 动态加载模型
-
-注意：使用mirror.model()加载模型后才能使用模型的方法
-
-```js
-import React from 'react';
-import mirror, { actions, connect } from '@ccreator/mirror';
-import demo from '../models/demo';
-
-// 动态加载模型
-mirror.model({
-    name: 'test',
-    state: { value: 'xxx' },
-});
-// 动态加载模型
-mirror.model(demo);
-
-const Test = ({ name, value }) => {
-    React.useEffect(() => {
-        // 2. 调用模型的方法
-        console.log(actions.test.get('value')); // eslint-disable-line
-    }, []);
-    const handleClick = () => {
-        actions.app.set({ name: new Date().valueOf() });
-        actions.test.set({ value: new Date().valueOf() });
-    };
-    return (
-        <>
-            <div>{name}</div>
-            <div>{value}</div>
-            <button type="button" onClick={handleClick}>测试</button>
-        </>
-    );
-};
-
-const dispatchStore = ({ app, test }) => ({ name: app.name, value: test.value });
-
-export default connect(dispatchStore)(Test);
-
-```
-
 ## 更新内容
 
 **2023-01-17**  
