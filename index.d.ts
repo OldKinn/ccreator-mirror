@@ -1,32 +1,15 @@
 import { Provider, connect } from "react-redux";
-
-export const actions: {};
-
-export function createStore(): any;
-
+declare let actions: any;
+declare const hook: (callback: any) => void;
+declare const createStore: () => any;
+declare const model: (source: any) => void;
+declare const dynamicModel: (source: any) => void;
 declare const mirror: Readonly<{
-  __proto__: any;
-  actions: {};
-  createStore: () => any;
-  defaults: typeof defaults;
-  hook: typeof hook;
-  model: typeof model;
-  toReducers: typeof toReducers;
+    __proto__: any;
+    readonly actions: any;
+    createStore: () => any;
+    dynamicModel: (source: any) => void;
+    hook: (callback: any) => void;
+    model: (source: any) => void;
 }>;
-
-export function defaults(opts?: {}): void;
-
-export function hook(subscriber: any): () => void;
-
-declare interface Model {
-  name: string
-  state: object
-  reducers?: object
-  effects?: object
-}
-
-export function model(base: Model): void;
-
-export function toReducers(): any;
-
-export { Provider, connect, mirror as default };
+export { Provider, actions, connect, createStore, mirror as default, dynamicModel, hook, model };

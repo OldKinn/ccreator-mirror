@@ -7,10 +7,14 @@ import Const from './scripts/vite.const';
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [reactRefresh()],
+    server: {
+        host: '0.0.0.0',
+        port: 3000,
+    },
     build: {
         minify: false,
         lib: {
-            entry: path.resolve(__dirname, 'src/mirror/index.js'),
+            entry: path.resolve(__dirname, 'src/mirror3/index.js'),
             name: 'mirror',
             fileName: (format) => `mirror.${format}.js`,
         },

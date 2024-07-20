@@ -16,6 +16,7 @@
   "main": "./dist/mirror.umd.js",
   "module": "./dist/mirror.es.js",
   "scripts": {
+    "dev": "vite",
     "build": "vite build",
     "format": "eslint ./src --fix"
   },
@@ -25,6 +26,7 @@
     "react-dom": ">=16.9.0"
   },
   "dependencies": {
+    "@rematch/core": "^2.2.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1"
   },
@@ -38,6 +40,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "fs-extra": "^11.1.0",
     "lodash": "^4.17.21",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "vite": "^4.0.4"
   }
 }
