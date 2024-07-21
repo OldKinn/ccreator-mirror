@@ -1,7 +1,7 @@
 {
   "name": "@ccreator/mirror",
-  "version": "3.0.0-0",
-  "description": "redux封装,基于mirrorx实现",
+  "version": "3.0.0-1",
+  "description": "redux封装,基于@rematch/core实现",
   "repository": "https://e.coding.net/chinacreator/ccreator-mirror/ccreator-mirror.git",
   "author": {
     "name": "leon",
@@ -40,7 +40,6 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "fs-extra": "^11.1.0",
     "jsdoc": "^4.0.3",
     "lodash": "^4.17.21",
     "react": "^18.3.1",

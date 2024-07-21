@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, import/no-mutable-exports, import/no-extraneous-dependencies */
+/* eslint-disable no-param-reassign, import/no-mutable-exports, import/no-extraneous-dependencies, no-console */
 import { init } from '@rematch/core';
 
 /**
@@ -8,10 +8,19 @@ import { init } from '@rematch/core';
  *
  */
 
-// 模型集合
-const modelList = [];
+// 所有模型集合
+const models = {};
 
-// 指令集合
+/**
+ * 模型指令集合
+ * @example <caption>使用示例</caption>
+ * import { actions } from '@ccreator/mirror';
+ *
+ * actions.user.get();
+ * actions.user.set({ mobile: '10086' });
+ * actions.user.get('mobile');
+ * await actions.user.fetchList();
+ */
 let actions = null;
 
 // 存储对象
@@ -20,11 +29,21 @@ let store = null;
 // 回调集合
 const hooks = [];
 
+const debug = (content, type = '', color = 'teal') => {
+    console.log(`%c---------------->${type}`, `color:${color};font-weight:bolder;`);
+    console.log(content);
+    console.log('%c<----------------', `color:${color};font-weight:bolder;`);
+};
+
 /**
  * 添加回调钩子
  *
  * @param {Function} callback 回调钩子
  * @example <caption>使用示例</caption>
+ * import mirror from '@ccreator/mirror';
+ * // 或者
+ * import { hook } from '@ccreator/mirror';
+ *
  * mirror.hook((actions) => {
  *     Logger.debug(actions, '调用模型的指令');
  * });
@@ -45,16 +64,16 @@ const createMiddleware = () => (next) => (action) => {
  * 创建状态存储
  * @returns state 状态存储
  * @example <caption>使用示例</caption>
+ * import mirror from '@ccreator/mirror';
+ * // 或者
+ * import { createStore } from '@ccreator/mirror';
+ *
  * const store = mirror.createStore();
  * <Provider store={store}>
  *     <App />
  * </Provider>
  */
 const createStore = () => {
-    const models = {};
-    modelList.forEach((item) => {
-        models[item.name] = item;
-    });
     store = init({ models, redux: { middlewares: [createMiddleware] } });
     actions = store.dispatch;
     return store;
@@ -92,6 +111,10 @@ const transformModel = (source) => {
  * @param {Object} model.effects 模型的指令方法，异步类型，非必填
  *
  * @example <caption>使用示例</caption>
+ * import mirror from '@ccreator/mirror';
+ * // 或者
+ * import { model } from '@ccreator/mirror';
+ *
  * import user from '../models/user';
  * mirror.model(user);
  * // 或者使用对象
@@ -116,11 +139,8 @@ const transformModel = (source) => {
  */
 const model = (source) => {
     const target = transformModel(source);
-    if (store) {
-        store.addModel(target);
-    } else {
-        modelList.push(target);
-    }
+    models[target.name] = target;
+    if (store) store.addModel(target);
 };
 
 // 动态加载模型
@@ -134,12 +154,17 @@ const dynamicModel = (source) => {
  * 获取所有模型状态
  * @returns state 所有模型状态
  * @example <caption>使用示例</caption>
+ * import mirror from '@ccreator/mirror';
+ * // 或者
+ * import { getState } from '@ccreator/mirror';
+ *
  * const all = mirror.getState();
  * console.log(all);
  */
 const getState = () => store.getState();
 
 export {
+    debug,
     model,
     dynamicModel,
     actions,

@@ -1,5 +1,5 @@
 import path from 'path';
-import fs from 'fs-extra';
+import fs from 'fs';
 import keys from 'lodash/keys';
 import filter from 'lodash/filter';
 import set from 'lodash/set';

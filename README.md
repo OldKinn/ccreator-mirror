@@ -110,6 +110,44 @@ function dispatch({ book, xxx }) {
 export default connect(dispatch)(App);
 ```
 
+## 动态加载模型
+**注意事项：需要先加载，然后才能调用模型指令，否则actions.{model}.{action}空值异常**  
+**注意事项：需要先加载，然后才能调用模型指令，否则actions.{model}.{action}空值异常**  
+**注意事项：需要先加载，然后才能调用模型指令，否则actions.{model}.{action}空值异常**
+
+```js
+import React from 'react';
+import mirror, { actions, connect } from '@ccreator/mirror';
+import model from './user';
+import get from 'lodash/get';
+
+const Main = ({ page, dataSource }) => {
+
+    React.useEffect(() => {
+        // 动态加载模型
+        mirror.model(model);
+        const temp = actions.user.get('page');
+        console.log(temp);
+        actions.user.set({ page: { index: 100, size: 1024 } });
+    }, []);
+
+    return <>{JSON.stringify({ page, dataSource })}</>;
+};
+
+function dispatch({ user }) {
+    // 注意user模型未加载时，user为undefined，可以使用lodash.get防止空值异常
+    return {
+        page: {
+            index: get(user, 'page.index', 1),
+            size: get(user, 'page.size', 10)
+        },
+        dataSource: user?.dataSource,
+    };
+}
+
+export default connect(dispatch)(Main);
+```
+
 ## 更新内容
 
 **2024-07-20**

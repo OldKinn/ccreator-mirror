@@ -4,10 +4,9 @@ import { Provider } from 'react-redux';
 import App from './App';
 import store from './store';
 import mirror from './mirror3';
-import debug from './mirror3/debug';
 
 mirror.hook((actions) => {
-    debug(actions, 'HOOK');
+    mirror.debug(actions, 'HOOK');
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(

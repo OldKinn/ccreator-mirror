@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import mirror, { actions } from './mirror3';
-import debug from './mirror3/debug';
+import mirror, { actions, debug } from './mirror3';
 
 const App = (props) => {
 
