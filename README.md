@@ -7,7 +7,9 @@
 yarn add @ccreator/mirror
 ```
 
-## 定义模型
+## 使用
+
+### 1. 定义模型
 
 说明：模型装载时，会自动添加set、reset和get方法，请不要给模型增加这些方法，否则会被覆盖
  
@@ -23,26 +25,27 @@ export default {
     // 同步的方法
     reducers: {
         // 调用方式：actions.demo.addBook({ name: '孙子兵法', author: '孙武' });
-        addBook(state, params) {
+        addBook(state, payload) {
             const { books } = state;
-            state.push(params);
-            return { ...state, books };
+            books.push(payload);
+            return { ...state, books: [...books] };
         }
     },
     // 异步的方法
     effects: {
         // 调用方式：actions.demo.fetchList({ author: '孙武' });
-        async fetchList(params, getState) {
+        async fetchList(payload, getState) {
             // getState()获取所有全部状态数据
             // console.log(getState());
-            const books = await fetch(`/books?author=${params.author}`).then((resp) => resp.json);
+            const resp = await fetch(`/books?author=${payload.author}`);
+            const books = await resp.json();
             actions.demo.set({ books });
         }
     },
 }
 ```
 
-## 初始化状态存储(Store)
+### 2. 初始化状态存储(Store)
 
 ```js
 // store.js
@@ -53,6 +56,12 @@ import demo from './models/demo';
 // 1.加载模型
 mirror.model(app);
 mirror.model(demo);
+// 尽量拆分模型到独立文件
+mirror.model({
+    name: 'loading',
+    state: 0,
+    reducers: {... ...}
+});
 
 // 2.创建数据存储
 const store = mirror.createStore();
@@ -60,7 +69,7 @@ const store = mirror.createStore();
 export defalut store;
 ```
 
-## 注入状态存储(Store)
+### 3. 注入状态存储(Store)
 
 ```js
 // index.js
@@ -83,7 +92,29 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 ```
 
+### 4. 子组件连接状态存储
+
+```js
+const App = ({ author, price, xxx }) => {
+    ... ...
+}
+
+function dispatch({ book, xxx }) {
+    return {
+        author: book.author,
+        price: book.price,
+        xxx,
+    };
+}
+
+export default connect(dispatch)(App);
+```
+
 ## 更新内容
+
+**2024-07-20**
+1. 实现动态加载模型，方便代码拆分
+2. 升级依赖
 
 **2023-01-17**  
 1. 移除react-router-dom依赖
