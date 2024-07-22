@@ -111,10 +111,7 @@ export default connect(dispatch)(App);
 ```
 
 ## 动态加载模型
-**注意事项：需要先加载，然后才能调用模型指令，否则actions.{model}.{action}空值异常**  
-**注意事项：需要先加载，然后才能调用模型指令，否则actions.{model}.{action}空值异常**  
 **注意事项：需要先加载，然后才能调用模型指令，否则actions.{model}.{action}空值异常**
-
 ```js
 import React from 'react';
 import mirror, { actions, connect } from '@ccreator/mirror';

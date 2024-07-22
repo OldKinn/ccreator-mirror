@@ -18,6 +18,7 @@
   "types": "index.d.ts",
   "scripts": {
     "dev": "vite",
+    "start": "pm2 start ./scripts/start.js --name=mirror",
     "build": "vite build",
     "doc": "jsdoc ./src/mirror3 -c ./jsdoc.config.json",
     "format": "eslint ./src --fix"
