@@ -82,16 +82,21 @@ const createStore = () => {
 // 转换模型
 const transformModel = (source) => {
     if (!source.name) throw new Error('模型名称未配置！');
-    const defaultState = { ...source.state };
     if (!source.reducers) source.reducers = {};
-    source.reducers.set = (state, payload) => {
-        if (typeof state !== 'object') return payload;
-        Object.keys(payload).forEach((key) => {
-            if (defaultState[key] === undefined) throw new Error(`模型${source.name}.state.${key}未定义`);
-        });
-        return { ...state, ...payload };
-    };
-    source.reducers.reset = () => ({ ...defaultState });
+    if (typeof source.state === 'object') {
+        const defaultState = { ...source.state };
+        source.reducers.set = (state, payload) => {
+            Object.keys(payload).forEach((key) => {
+                if (defaultState[key] === undefined) throw new Error(`模型${source.name}.state.${key}未定义`);
+            });
+            return { ...state, ...payload };
+        };
+        source.reducers.reset = () => ({ ...defaultState });
+    } else {
+        const defaultState = source.state;
+        source.reducers.set = (state, payload) => payload;
+        source.reducers.reset = () => defaultState;
+    }
     if (!source.effects) source.effects = {};
     source.effects.get = (payload, getState) => {
         const state = getState()[source.name];
@@ -143,13 +148,6 @@ const model = (source) => {
     if (store) store.addModel(target);
 };
 
-// 动态加载模型
-const dynamicModel = (source) => {
-    if (!store) throw new Error('存储对象未创建');
-    const target = transformModel(source);
-    store.addModel(target);
-};
-
 /**
  * 获取所有模型状态
  * @returns state 所有模型状态
@@ -158,15 +156,14 @@ const dynamicModel = (source) => {
  * // 或者
  * import { getState } from '@ccreator/mirror';
  *
- * const all = mirror.getState();
- * console.log(all);
+ * const state = mirror.getState();
+ * console.log(state);
  */
 const getState = () => store.getState();
 
 export {
     debug,
     model,
-    dynamicModel,
     actions,
     createStore,
     hook,

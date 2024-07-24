@@ -111,18 +111,23 @@ export default connect(dispatch)(App);
 ```
 
 ## 动态加载模型
-**注意事项：需要先加载，然后才能调用模型指令，否则actions.{model}.{action}空值异常**
+1. 注意事项：需要先加载，然后才能调用模型指令，否则actions.{model}.{action}空值异常
+2. 注意事项：如果使用React.lazy加载组件，推荐使用方案1实现业务模块的拆分
+3. 注意事项：注意保持模型名称唯一，防止模型属性和指令方法被覆盖
 ```js
 import React from 'react';
 import mirror, { actions, connect } from '@ccreator/mirror';
 import model from './user';
 import get from 'lodash/get';
 
+// 方案1：配合React.lazy实现动态加载
+mirror.model(model);
+
 const Main = ({ page, dataSource }) => {
 
     React.useEffect(() => {
-        // 动态加载模型
-        mirror.model(model);
+        // 方案2：组件内实现动态加载
+        // mirror.model(model);
         const temp = actions.user.get('page');
         console.log(temp);
         actions.user.set({ page: { index: 100, size: 1024 } });

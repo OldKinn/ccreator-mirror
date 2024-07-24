@@ -2,9 +2,9 @@
 
 rm -fr ./dist
 
-# update version
-npm version prerelease --no-git-tag-version
-# npm version patch
+# npm version prerelease --no-git-tag-version
+# npm version patch --no-git-tag-version
+npm version major --no-git-tag-version
 
 sed -i 's/getState()/getState/g' node_modules/@rematch/core/**/*.js
 sed -i 's/getState()/getState/g' node_modules/@rematch/core/**/*.ts

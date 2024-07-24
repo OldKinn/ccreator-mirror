@@ -6,11 +6,9 @@
     src:
         local("Open Sans"),
         local("OpenSans"),
-        url("../fonts/OpenSans-Regular-webfont.eot?#iefix")
-            format("embedded-opentype"),
+        url("../fonts/OpenSans-Regular-webfont.eot?#iefix") format("embedded-opentype"),
         url("../fonts/OpenSans-Regular-webfont.woff") format("woff"),
-        url("../fonts/OpenSans-Regular-webfont.svg#open_sansregular")
-            format("svg");
+        url("../fonts/OpenSans-Regular-webfont.svg#open_sansregular") format("svg");
 }
 
 @font-face {
@@ -21,8 +19,7 @@
     src:
         local("Open Sans Light"),
         local("OpenSans Light"),
-        url("../fonts/OpenSans-Light-webfont.eot?#iefix")
-            format("embedded-opentype"),
+        url("../fonts/OpenSans-Light-webfont.eot?#iefix") format("embedded-opentype"),
         url("../fonts/OpenSans-Light-webfont.woff") format("woff"),
         url("../fonts/OpenSans-Light-webfont.svg#open_sanslight") format("svg");
 }
@@ -49,9 +46,9 @@ a:active {
 
 a:hover {
     text-decoration: underline;
-}store
+}
 
-header {
+store header {
     display: block;
     padding: 0px 4px;
 }
@@ -79,7 +76,7 @@ samp {
     width: 70%;
 }
 
-#main > h3 {
+#main>h3 {
     padding-left: 24px;
     color: #f44336;
     font-weight: bold;
@@ -228,14 +225,11 @@ th {
 }
 
 thead tr {
-    background-color: #ddd;
+    color: #f44336;
     font-weight: bold;
 }
 
-th {
-    border-right: 1px solid #aaa;
-}
-tr > th:last-child {
+tr>th:last-child {
     border-right: 1px solid #ddd;
 }
 
@@ -243,6 +237,7 @@ tr > th:last-child {
 .attribs {
     color: #999;
 }
+
 .ancestors a,
 .attribs a {
     color: #999 !important;
@@ -283,28 +278,35 @@ h4.name {
     margin-top: 14px;
     border-left: 2px solid #ddd;
 }
+
 .details dt {
     width: 120px;
     float: left;
     padding-left: 10px;
     padding-top: 6px;
 }
+
 .details dd {
     margin-left: 70px;
 }
+
 .details ul {
     margin: 0;
 }
+
 .details ul {
     list-style-type: none;
 }
+
 .details li {
     margin-left: 30px;
     padding-top: 6px;
 }
+
 .details pre.prettyprint {
     margin: 0;
 }
+
 .details .object-value {
     padding-top: 0;
 }
@@ -382,14 +384,14 @@ h4.name {
     font-size: 100%;
 }
 
-.params td.description > p:first-child,
-.props td.description > p:first-child {
+.params td.description>p:first-child,
+.props td.description>p:first-child {
     margin-top: 0;
     padding-top: 0;
 }
 
-.params td.description > p:last-child,
-.props td.description > p:last-child {
+.params td.description>p:last-child,
+.props td.description>p:last-child {
     margin-bottom: 0;
     padding-bottom: 0;
 }
