@@ -1,4 +1,4 @@
-/* eslint-disable default-param-last */
+/* eslint-disable default-param-last, import/no-extraneous-dependencies */
 import set from 'lodash/set';
 import get from 'lodash/get';
 import forEach from 'lodash/forEach';
