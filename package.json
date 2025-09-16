@@ -1,6 +1,6 @@
 {
   "name": "@ccreator/mirror",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Redux wrapper, implemented based on @rematch/core",
   "repository": "https://github.com/OldKinn/ccreator-mirror.git",
   "author": {

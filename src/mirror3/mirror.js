@@ -8,8 +8,8 @@ import { init } from '@rematch/core';
  *
  */
 
-// All models collection
-const models = {};
+// All models collection - using Map for better performance
+const models = new Map();
 
 /**
  * Model actions collection
@@ -26,13 +26,16 @@ let actions = null;
 // Store object
 let store = null;
 
-// Callbacks collection
-const hooks = [];
+// Callbacks collection - using Set to prevent duplicate hooks
+const hooks = new Set();
 
 const debug = (content, type = '', color = 'teal') => {
-    console.log(`%c---------------->${type}`, `color:${color};font-weight:bolder;`);
+    if (process.env.NODE_ENV === 'production') return; // Skip debug in production
+    
+    const style = `color:${color};font-weight:bolder;`;
+    console.log(`%c---------------->${type}`, style);
     console.log(content);
-    console.log('%c<----------------', `color:${color};font-weight:bolder;`);
+    console.log('%c<----------------', style);
 };
 
 /**
@@ -49,13 +52,27 @@ const debug = (content, type = '', color = 'teal') => {
  * });
  */
 const hook = (callback) => {
-    hooks.push(callback);
+    if (typeof callback !== 'function') {
+        throw new Error('Hook callback must be a function');
+    }
+    hooks.add(callback);
+};
+
+/**
+ * Remove callback hook
+ * @param {Function} callback Callback hook to remove
+ */
+const unhook = (callback) => {
+    hooks.delete(callback);
 };
 
 const createMiddleware = () => (next) => (action) => {
-    hooks.forEach((item) => {
-        if (typeof item !== 'function') return;
-        item(action);
+    hooks.forEach((callback) => {
+        try {
+            callback(action);
+        } catch (error) {
+            console.error('Hook callback error:', error);
+        }
     });
     return next(action);
 };
@@ -74,36 +91,102 @@ const createMiddleware = () => (next) => (action) => {
  * </Provider>
  */
 const createStore = () => {
-    store = init({ models, redux: { middlewares: [createMiddleware] } });
+    if (store) {
+        console.warn('Store already exists. Returning existing store.');
+        return store;
+    }
+    
+    // Convert Map to object for rematch compatibility
+    const modelsObject = Object.fromEntries(models);
+    
+    store = init({ 
+        models: modelsObject, 
+        redux: { 
+            middlewares: [createMiddleware]
+        } 
+    });
     actions = store.dispatch;
     return store;
 };
 
 // Transform model
 const transformModel = (source) => {
-    if (!source.name) throw new Error('Model name not configured!');
-    if (!source.reducers) source.reducers = {};
-    if (typeof source.state === 'object') {
-        const defaultState = { ...source.state };
-        source.reducers.set = (state, payload) => {
+    if (!source || typeof source !== 'object') {
+        throw new Error('Model must be an object');
+    }
+    
+    if (!source.name || typeof source.name !== 'string') {
+        throw new Error('Model name must be a non-empty string');
+    }
+    
+    if (source.state === undefined) {
+        throw new Error('Model state is required');
+    }
+    
+    // Check for duplicate model names
+    if (models.has(source.name)) {
+        throw new Error(`Model with name "${source.name}" already exists`);
+    }
+    
+    // Create a deep copy to avoid mutations
+    const transformedModel = { ...source };
+    
+    if (!transformedModel.reducers) {
+        transformedModel.reducers = {};
+    }
+    
+    if (typeof transformedModel.state === 'object' && transformedModel.state !== null) {
+        const defaultState = { ...transformedModel.state };
+        
+        transformedModel.reducers.set = (state, payload) => {
+            if (payload === null || payload === undefined) {
+                return state;
+            }
+            
+            if (typeof payload !== 'object') {
+                throw new Error(`Model ${transformedModel.name}.set() payload must be an object`);
+            }
+            
+            // Validate payload keys against default state
             Object.keys(payload).forEach((key) => {
-                if (defaultState[key] === undefined) throw new Error(`Model ${source.name}.state.${key} is not defined`);
+                if (defaultState[key] === undefined) {
+                    throw new Error(`Model ${transformedModel.name}.state.${key} is not defined`);
+                }
             });
+            
             return { ...state, ...payload };
         };
-        source.reducers.reset = () => ({ ...defaultState });
+        
+        transformedModel.reducers.reset = () => ({ ...defaultState });
     } else {
-        const defaultState = source.state;
-        source.reducers.set = (state, payload) => payload;
-        source.reducers.reset = () => defaultState;
+        const defaultState = transformedModel.state;
+        
+        transformedModel.reducers.set = (state, payload) => {
+            if (payload === undefined) {
+                return state;
+            }
+            return payload;
+        };
+        
+        transformedModel.reducers.reset = () => defaultState;
     }
-    if (!source.effects) source.effects = {};
-    source.effects.get = (payload, getState) => {
-        const state = getState()[source.name];
+    
+    if (!transformedModel.effects) {
+        transformedModel.effects = {};
+    }
+    
+    transformedModel.effects.get = (payload, getState) => {
+        const state = getState()[transformedModel.name];
         if (!payload) return state;
+        
+        if (typeof payload !== 'string') {
+            throw new Error(`Model ${transformedModel.name}.get() payload must be a string`);
+        }
+        
         return state[payload];
     };
-    return source;
+    
+    return transformedModel;
 };
 
 /**
@@ -144,8 +227,16 @@ const transformModel = (source) => {
  */
 const model = (source) => {
     const target = transformModel(source);
-    models[target.name] = target;
-    if (store) store.addModel(target);
+    models.set(target.name, target);
+    
+    if (store) {
+        try {
+            store.addModel(target);
+        } catch (error) {
+            console.error(`Failed to add model "${target.name}" to store:`, error);
+            throw error;
+        }
+    }
 };
 
 /**
@@ -159,7 +250,47 @@ const model = (source) => {
  * const state = mirror.getState();
  * console.log(state);
  */
-const getState = () => store.getState();
+const getState = () => {
+    if (!store) {
+        throw new Error('Store not initialized. Call createStore() first.');
+    }
+    return store.getState();
+};
+
+/**
+ * Get a specific model state
+ * @param {string} modelName Model name
+ * @returns {*} Model state
+ */
+const getModelState = (modelName) => {
+    if (!modelName || typeof modelName !== 'string') {
+        throw new Error('Model name must be a non-empty string');
+    }
+    
+    const state = getState();
+    if (!state[modelName]) {
+        throw new Error(`Model "${modelName}" not found`);
+    }
+    
+    return state[modelName];
+};
+
+/**
+ * Check if a model exists
+ * @param {string} modelName Model name
+ * @returns {boolean} Whether the model exists
+ */
+const hasModel = (modelName) => {
+    return models.has(modelName);
+};
+
+/**
+ * Get all registered model names
+ * @returns {string[]} Array of model names
+ */
+const getModelNames = () => {
+    return Array.from(models.keys());
+};
 
 export {
     debug,
@@ -167,5 +298,9 @@ export {
     actions,
     createStore,
     hook,
+    unhook,
     getState,
+    getModelState,
+    hasModel,
+    getModelNames,
 };

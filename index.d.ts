@@ -48,9 +48,13 @@ export type HookCallback = (action: any) => void;
 // Exported function types
 export declare const debug: (content: any, type?: string, color?: string) => void;
 export declare const hook: (callback: HookCallback) => void;
+export declare const unhook: (callback: HookCallback) => void;
 export declare const createStore: () => MirrorStore;
 export declare const model: <TState = any>(source: ModelConfig<TState>) => void;
 export declare const getState: () => State;
+export declare const getModelState: (modelName: string) => any;
+export declare const hasModel: (modelName: string) => boolean;
+export declare const getModelNames: () => string[];
 
 // Actions declaration
 export declare let actions: Actions;
@@ -61,7 +65,11 @@ export interface Mirror {
   createStore: () => MirrorStore;
   debug: (content: any, type?: string, color?: string) => void;
   getState: () => State;
+  getModelState: (modelName: string) => any;
+  hasModel: (modelName: string) => boolean;
+  getModelNames: () => string[];
   hook: (callback: HookCallback) => void;
+  unhook: (callback: HookCallback) => void;
   model: <TState = any>(source: ModelConfig<TState>) => void;
 }
 
