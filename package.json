@@ -1,0 +1,49 @@
+{
+  "name": "@ccreator/mirror",
+  "version": "3.0.1",
+  "description": "Redux wrapper, implemented based on @rematch/core",
+  "repository": "https://github.com/OldKinn/ccreator-mirror.git",
+  "author": {
+    "name": "leon",
+    "email": "leonooo@163.com"
+  },
+  "license": "MIT",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "type": "module",
+  "main": "./dist/mirror.umd.js",
+  "module": "./dist/mirror.es.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "start": "pm2 start ./scripts/start.js --name=mirror",
+    "build": "vite build",
+    "doc": "jsdoc ./src/mirror3 -c ./jsdoc.config.json",
+    "format": "eslint ./src --fix"
+  },
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "dependencies": {
+    "react-redux": "^8.1.3",
+    "redux": "^4.2.1"
+  },
+  "devDependencies": {
+    "@rematch/core": "^2.2.0",
+    "@vitejs/plugin-react-refresh": "^1.3.6",
+    "eslint": "^8.33.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jsdoc": "^4.0.3",
+    "lodash": "^4.17.21",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^4.0.4"
+  }
+}

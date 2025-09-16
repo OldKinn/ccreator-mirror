@@ -1,0 +1,17 @@
+{
+    "opts": {
+        "destination": "./docs",
+        "recurse": true,
+        "package": "./package.json",
+        "readme": "./README.md"
+    },
+    "templates": {
+        "default": {
+            "staticFiles": {
+                "include": ["docs/static"]
+            },
+            "useLongnameInNav": true,
+            "outputSourceFiles": false
+        }
+    }
+}
